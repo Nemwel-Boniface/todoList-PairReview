@@ -1,7 +1,9 @@
 import './style.css';
 import setState from './modules/getstates.js';
 
-let tasks = [];
+import { addToLocalStorage, getFromLocalStorage, resetIndex, rmvTask, editTask } from './modules/localStorage.js';
+
+export let tasks = [];
 const taskWrapper = document.querySelector('.activities');
 const newTask = document.querySelector('.newTask');
 const addNewTask = document.querySelector('.submit');
@@ -10,34 +12,6 @@ const reset = document.getElementById('reset');
 
 const clearallTasks = () => {
   tasks = [];
-};
-
-const addToLocalStorage = () => {
-  localStorage.setItem('myTasks', JSON.stringify(tasks));
-};
-
-const getFromLocalStorage = () => {
-  if (localStorage.getItem('myTasks')) {
-    tasks = JSON.parse(localStorage.getItem('myTasks'));
-  }
-  return tasks;
-};
-
-const resetIndex = (tasks) => {
-  for (let i = 0; i < tasks.length; i += 1) {
-    const indx = i + 1;
-    tasks[i].index = indx;
-  }
-};
-
-const rmvTask = (index) => {
-  const mylocal = getFromLocalStorage();
-  mylocal.splice(index - 1, 1);
-};
-
-const editTask = (desc, index) => {
-  tasks[index - 1].description = desc;
-  addToLocalStorage();
 };
 
 const displayTasks = () => {
@@ -87,9 +61,7 @@ const ClearcompletedTasks = () => {
   displayTasks();
 };
 
-clearAll.addEventListener('click', () => {
-  ClearcompletedTasks();
-});
+clearAll.addEventListener('click', ClearcompletedTasks);
 
 const addToTasks = () => {
   const lengt = tasks.length;
